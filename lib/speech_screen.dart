@@ -2,6 +2,7 @@
 
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:chat_gpt_bot/Components/colors.dart';
+import 'package:chat_gpt_bot/Models/api_sevices.dart';
 import 'package:chat_gpt_bot/Models/chat_model.dart';
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart';
@@ -17,6 +18,14 @@ class _SpeechScreenState extends State<SpeechScreen> {
   var text = "Hold the Button and start speaking";
   SpeechToText speechToText = SpeechToText();
   var isListening = false;
+  final List<ChatMessage> messages = [];
+  var scrollController = ScrollController();
+
+  scrollMethod() {
+    scrollController.animateTo(scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -57,11 +66,17 @@ class _SpeechScreenState extends State<SpeechScreen> {
               }
             }
           },
-          onTapUp: (details) {
+          onTapUp: (details) async {
             setState(() {
               isListening = false;
             });
             speechToText.stop();
+            messages.add(ChatMessage(text: text, type: ChatMessageType.user));
+            var msg = await ApiServices.sendMessage(text);
+
+            setState(() {
+              messages.add(ChatMessage(text: msg, type: ChatMessageType.bot));
+            });
           },
           child: CircleAvatar(
             backgroundColor: bgColor,
@@ -94,12 +109,13 @@ class _SpeechScreenState extends State<SpeechScreen> {
                     borderRadius: BorderRadius.circular(17),
                   ),
                   child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    controller: scrollController,
                     shrinkWrap: true,
-                    itemCount: 4,
+                    itemCount: messages.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return chatBubble(
-                          chatText: "i love myself",
-                          type: ChatMessageType.user);
+                      var chat = messages[index];
+                      return chatBubble(chatText: chat.text, type: chat.type);
                     },
                   )),
             ),
@@ -120,7 +136,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
     );
   }
 
-  Widget chatBubble({required chatText, required ChatMessageType type}) {
+  Widget chatBubble({required chatText, required ChatMessageType? type}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

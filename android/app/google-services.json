@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "661650008125",
+    "project_id": "blackcoffer-67a2f",
+    "storage_bucket": "blackcoffer-67a2f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:661650008125:android:0551d5dc17b0d5db3aa254",
+        "android_client_info": {
+          "package_name": "com.example.chat_gpt_bot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "661650008125-hfcu3j2qst5s5f0t2ts8o60hmu2or3jd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcEkMvB8Q7TH_ErkSKsj-Cth-OFMYfNQg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "661650008125-hfcu3j2qst5s5f0t2ts8o60hmu2or3jd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
